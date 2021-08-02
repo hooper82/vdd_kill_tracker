@@ -1,0 +1,16 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    expose:
+      - '6379'
+  api_connector:
+    environment:
+      - REDIS_HOSTNAME=redis
+      - REDIS_PORT=6379
+    build:
+      context: .
+      dockerfile: Dockerfile_api_connector
+    depends_on:
+      - redis
