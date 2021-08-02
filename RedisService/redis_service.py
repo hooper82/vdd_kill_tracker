@@ -1,4 +1,5 @@
 import redis
+import json
 
 KILLERS_KEY = 'killers'
 
@@ -9,7 +10,7 @@ class RedisService:
     def update_killers(self, killers):
         assert isinstance(killers, dict)
 
-        self._redis.set(KILLERS_KEY, killers)
+        self._redis.set(KILLERS_KEY, json.dumps(killers))
 
     def get_killers(self):
-        return self._redis.get(KILLERS_KEY)
+        return json.reads(self._redis.get(KILLERS_KEY))
