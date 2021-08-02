@@ -32,12 +32,14 @@ URL_ESI_CHARACTER = "https://esi.evetech.net/latest/characters/{}/?datasource=tr
 API_WAIT_SECONDS = 5
 
 class CharacterTracker:
-    def __init__(self, killmail_fetcher, corporation_id, exclude_pod_kills, exclude_corvettes):
+    def __init__(self, killmail_fetcher, redis_service, corporation_id, exclude_pod_kills, exclude_corvettes):
         assert isinstance(corporation_id, int)
         assert isinstance(exclude_pod_kills, bool)
         assert isinstance(exclude_corvettes, bool)
 
         self.killmail_fetcher = killmail_fetcher
+        self.redis_service = redis_service
+
         self.corporation_id = corporation_id
         
         self.exclude_pod_kills = exclude_pod_kills
@@ -79,11 +81,7 @@ class CharacterTracker:
             name = _resp.json()['name']
         return name
 
-    def run(self, cycle_seconds):
-        _start_time = datetime.datetime.now()
-
-        self.killmail_fetcher.run()
-
+    def process_all_killmails_and_add_to_characters(self):
         for killmail in self.killmail_fetcher.kills.values():
             if killmail is None:
                 continue
@@ -110,14 +108,24 @@ class CharacterTracker:
                     self.add_character(character_id)
                 self.add_kill_to_character(character_id, killmail_id)
 
+    def add_kills_to_redis(self):
+        kills = {}  # character_name : kill_count
+
+        for character in self.characters.values():
+            kills[character.name] = character.kill_count
+
+        logging.info(f'Writing {len(kills.keys())} characters to redis.')
+        self.redis_service.update_killers(kills)
+
+    def run(self, cycle_seconds):
+        _start_time = datetime.datetime.now()
+
+        self.killmail_fetcher.run()
+        self.process_all_killmails_and_add_to_characters()
+        self.add_kills_to_redis()
+
         _seconds_taken = (datetime.datetime.now() - _start_time).total_seconds()
         if _seconds_taken < cycle_seconds:
             sleep_seconds = (cycle_seconds - _seconds_taken)
-            logging.info(f'Sleeping for {sleep_seconds} seconds')
+            logging.info(f'Run Cycle finished, sleeping for {sleep_seconds} seconds')
             sleep(sleep_seconds)
-
-        character_kill_count = []
-        for character in self.characters.values():
-            character_kill_count.append( (character.name, character.kill_count) )
-
-        pprint(sorted(character_kill_count, key=lambda t:t[1]))

@@ -1,8 +1,9 @@
 import os
 import argparse
 
-from KillmailFetcher import KillmailFetcher, killmail_fetcher
+from KillmailFetcher import KillmailFetcher
 from CharacterTracker import CharacterTracker
+from RedisService import RedisService
 
 VDD_CORP_ID = 1282059165
 REGION_ID = 10000060
@@ -19,8 +20,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    redis_service = RedisService(args.redis_host, args.redis_port)
     killmail_fetcher = KillmailFetcher(args.corp_id, args.region_id, args.month)
-    character_tracker = CharacterTracker(killmail_fetcher, args.corp_id, True, True)
 
-    character_tracker.run(60)
+    character_tracker = CharacterTracker(killmail_fetcher, redis_service, args.corp_id, True, True)
+
+    while True:
+        character_tracker.run(60)
 
