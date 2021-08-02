@@ -17,3 +17,12 @@ services:
       dockerfile: Dockerfile_api_connector
     depends_on:
       - redis
+  website:
+    environment:
+      - REDIS_HOSTNAME=redis
+      - REDIS_PORT=6379
+    build:
+      context: .
+      dockerfile: Dockerfile_webpage
+    depends_on:
+      - redis

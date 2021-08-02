@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>TOP 5 VDD Cunts!</title>
+
+        <meta charset="UTF-8"> 
+        <meta name="keywords" content="HTML, CSS">
+
+        <link rel="stylesheet" type="text/css" href="/static/style.css" />
+    </head>
+    <body>
+        <h1>TOP 5 VDD Cunts!</h1>
+        <table id="customers">
+            <tr>
+              <th>Character</th>
+              <th>Kills</th>
+            </tr>
+            {% for character_name in character_names %}
+                <tr>
+                    <td>{{character_name}}</td>
+                    <td>{{characters[character_name]}}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="footer">
+        </div>
+    </body>
+</html>

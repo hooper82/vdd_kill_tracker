@@ -26,5 +26,5 @@ if __name__ == '__main__':
     character_tracker = CharacterTracker(killmail_fetcher, redis_service, args.corp_id, True, True)
 
     while True:
-        character_tracker.run(60)
+        character_tracker.run(120)
 
