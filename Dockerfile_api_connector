@@ -5,4 +5,4 @@ COPY . /app/
 RUN pip install -r /app/requirements.txt
 
 WORKDIR /app/
-CMD [ "python", "-u", "api_connector.py", "--corp_id 1282059165", "--region_id 10000060", "--month 8" ]
+CMD [ "python", "-u", "api_connector.py", "--corp_id", "1282059165", "--region_id", "10000060", "--month", "8" ]
