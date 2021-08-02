@@ -9,6 +9,9 @@ services:
     environment:
       - REDIS_HOSTNAME=redis
       - REDIS_PORT=6379
+      - CORPORATION_ID=1282059165
+      - REGION_ID=10000060
+      - MONTH=8
     build:
       context: .
       dockerfile: Dockerfile_api_connector

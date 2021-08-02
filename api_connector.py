@@ -13,9 +13,9 @@ if __name__ == '__main__':
     parser.add_argument('--redis_host', default=os.environ['REDIS_HOSTNAME'])
     parser.add_argument('--redis_port', default=os.environ['REDIS_PORT'])
 
-    parser.add_argument('--corp_id', type=int, required=True)
-    parser.add_argument('--region_id', type=int, required=True)
-    parser.add_argument('--month', type=int, required=True)
+    parser.add_argument('--corp_id', type=int, default=os.environ['CORPORATION_ID'])
+    parser.add_argument('--region_id', type=int, default=os.environ['REGION_ID'])
+    parser.add_argument('--month', type=int, default=os.environ['MONTH'])
 
     args = parser.parse_args()
 
