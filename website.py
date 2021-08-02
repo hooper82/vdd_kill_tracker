@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask import render_template
-from RedisService import RedisService, redis_service
+from RedisService import RedisService
 
 REDIS_HOSTNAME = os.environ['REDIS_HOSTNAME']
 REDIS_PORT = os.environ['REDIS_PORT']
@@ -9,7 +9,7 @@ REDIS_PORT = os.environ['REDIS_PORT']
 STATIC_FILE_PATH = '/static'
 
 app = Flask(__name__, static_url_path=STATIC_FILE_PATH)
-redis_adapter = RedisService(REDIS_HOSTNAME, REDIS_PORT)
+redis_service = RedisService(REDIS_HOSTNAME, REDIS_PORT)
 
 @app.route('/')
 def index():
