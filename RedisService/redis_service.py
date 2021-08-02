@@ -13,4 +13,4 @@ class RedisService:
         self._redis.set(KILLERS_KEY, json.dumps(killers))
 
     def get_killers(self):
-        return json.reads(self._redis.get(KILLERS_KEY))
+        return json.loads(self._redis.get(KILLERS_KEY))
