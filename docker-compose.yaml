@@ -26,3 +26,5 @@ services:
       dockerfile: Dockerfile_webpage
     depends_on:
       - redis
+    ports:
+      - '5000:80'
