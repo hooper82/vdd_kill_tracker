@@ -13,3 +13,13 @@ class Character:
     @property
     def kill_count(self):
         return len(self.kill_ids)
+
+    @property
+    def get_row(self):
+        return {
+            'name'             : self.name,
+            'id'               : self.id,
+            'kill_count'       : self.kill_count,
+            'kill_value'       : '???',
+            'total_kill_count' : '???',
+        }

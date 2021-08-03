@@ -109,13 +109,13 @@ class CharacterTracker:
                 self.add_kill_to_character(character_id, killmail_id)
 
     def add_kills_to_redis(self):
-        kills = {}  # character_name : kill_count
+        killers = []
 
         for character in self.characters.values():
-            kills[character.name] = character.kill_count
+            killers.append(character.get_row)
 
-        logging.info(f'Writing {len(kills.keys())} characters to redis.')
-        self.redis_service.update_killers(kills)
+        logging.info(f'Writing {len(killers)} characters to redis.')
+        self.redis_service.update_killers(killers)
 
     def run(self, cycle_seconds):
         _start_time = datetime.datetime.now()

@@ -1,29 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>TOP 5 VDD Cunts!</title>
+        <title>VDD Top Cunts : Leader Board</title>
 
         <meta charset="UTF-8"> 
         <meta name="keywords" content="HTML, CSS">
 
-        <link rel="stylesheet" type="text/css" href="/static/style.css" />
+        <link rel="stylesheet" type="text/css" href="static/style.css" />
     </head>
     <body>
-        <h1>TOP 5 VDD Cunts!</h1>
-        <table id="customers">
-            <tr>
-              <th>Character</th>
-              <th>Kills</th>
-            </tr>
-            {% for character_name in character_names %}
-                <tr>
-                    <td>{{character_name}}</td>
-                    <td>{{characters[character_name]}}</td>
-                </tr>
+        <div class="table">
+            <div class="row">
+                <div class="cell">
+                    <img src="static/vdd_logo_small.png">
+                </div>
+                <div class="cell">
+                    <h1>VDD Top Cunts : Leader Board</h1>
+                </div>    
+            </div>
+        </div>
+
+        <div class="table">
+            <div class="row title_row">
+                <div class="cell">
+                    Character Name
+                </div>
+                <div class="cell">
+                    Delve Kills
+                </div>
+                <div class="cell">
+                    Delve Value
+                </div>
+                <div class="cell">
+                    All Kills
+                </div>
+            </div>
+            {% for character in characters %}
+                <div class="row item_row">
+                    <div class="cell">
+                        <a href="https://zkillboard.com/character/{{character.id}}/">{{character.name}}</a>
+                    </div>
+                    <div class="cell">
+                        <a href="https://zkillboard.com/character/{{character.id}}/region/10000060/">{{character.kill_count}}</a>
+                    </div>
+                    <div class="cell">
+                        {{character.kill_value}} ISK
+                    </div>
+                    <div class="cell">
+                        <a href="https://zkillboard.com/character/{{character.id}}/">{{character.total_kill_count}}</a>
+                    </div>
+                </div>
             {% endfor %}
-        </table>
+        </div>
 
         <div class="footer">
+            Last Update : {{last_update_datetime}} EVE Time
         </div>
     </body>
 </html>

@@ -1,18 +1,18 @@
 /*
+NEW COLOR SCHEME
+Color Palette : https://coolors.co/acbdba-cddddd-a599b5-2e2f2f-051014
 
-Color Palett: https://coolors.co/f2545b-a93f55-19323c-f3f7f0-8c5e58
-
-#F2545B Sizzling Red
-#A93F55 Amaranth Purple
-#19323C Gunmetal
-#F3F7F0 Mint Cream
-#8C5E58 Rose Taupe
+#ACBDBA Ash Gray
+#CDDDDD Gainsboro
+#A599B5 Glossy Grape
+#2E2F2F Jet
+#051014 Rich Black
 
 */
 
 * {
-    font-family: 'Courier New';
-    color: #19323C;
+    font-family: 'Verdana';
+    color: #CDDDDD;
     box-sizing: border-box;
 }
 
@@ -23,36 +23,45 @@ h1 {
 }
 
 body {
-    background-color: #F3F7F0;
+    background-color: #051014;
 }
 
-table {
-    border-collapse: collapse;
-    margin-left: auto;
-    margin-right: auto;
+.header {
+    background-color: #051014;
 }
 
-th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    padding: 8px;
+.table {
+    display: table;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.row {
+    display: table-row;
+    width:100%;
+}
+
+.title_row {
+    background-color: #2E2F2F;
+    font-weight: bold;
+}
+
+.item_row {
+    background-color: #2E2F2F;
+}
+
+.cell {
+    display: table-cell;
+    padding: 5px;
+    border-style: solid;
+    border-width: 2px 0px 2px 0px;
+    border-color: #051014;
     text-align: center;
-    background-color: #8C5E58;
-    border: 1px solid #F3F7F0;
+    vertical-align: middle;
 }
 
-tr {
-    border: 1px solid #F3F7F0;
-    background-color: #F2545B;
+.footer {
+    font-size: small;
+    text-align: right;
 }
-
-tr:nth-child(even) {
-    background-color: #A93F55;
-}
-
-td {
-    border: 1px solid #F3F7F0;
-    padding: 8px;
-    text-align: center;
-}
-
