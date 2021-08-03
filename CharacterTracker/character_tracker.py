@@ -116,6 +116,7 @@ class CharacterTracker:
 
         logging.info(f'Writing {len(killers)} characters to redis.')
         self.redis_service.update_killers(killers)
+        self.redis_service.update_update_datetime()
 
     def run(self, cycle_seconds):
         _start_time = datetime.datetime.now()

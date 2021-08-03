@@ -11,7 +11,7 @@ class RedisService:
         self._redis = redis.StrictRedis(host=hostname, port=port, charset="utf-8", decode_responses=True)
 
     def update_killers(self, killers):
-        assert isinstance(killers, dict)
+        assert isinstance(killers, list)
 
         self._redis.set(KILLERS_KEY, json.dumps(killers))
 
