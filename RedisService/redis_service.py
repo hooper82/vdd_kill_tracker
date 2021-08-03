@@ -22,4 +22,4 @@ class RedisService:
         self._redis.set(UPDATE_KEY, datetime.datetime.now().strftime(UPDATE_FORMAT))
     
     def get_update_datetime(self):
-        return datetime.datetime.strptime(self._redis.get(UPDATE_KEY, UPDATE_FORMAT))
+        return datetime.datetime.strptime(self._redis.get(UPDATE_KEY), UPDATE_FORMAT)
