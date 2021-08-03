@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask import render_template
 from RedisService import RedisService
-import datetime
+
 
 REDIS_HOSTNAME = os.environ['REDIS_HOSTNAME']
 REDIS_PORT = os.environ['REDIS_PORT']
@@ -18,23 +18,6 @@ def index():
 
     characters = redis_service.get_killers()
     characters = sorted(characters, key=lambda c : c['kill_count'], reverse=True)
-
-    # characters = [
-    #     {
-    #         'name'             : 'Luskan Telamon',
-    #         'id'               : 413104079,
-    #         'kill_count'       : 5,
-    #         'kill_value'       : 5000,
-    #         'total_kill_count' : 5,
-    #     }
-    #     {
-    #         'name'             : 'Test',
-    #         'id'               : 413104079,
-    #         'kill_count'       : 10,
-    #         'kill_value'       : 5000,
-    #         'total_kill_count' : 5,
-    #     }
-    # ]
 
     return render_template('index.html', characters=characters, last_update_datetime=last_update_datetime.strftime("%Y-%m-%d %H:%M:%S"))
 
