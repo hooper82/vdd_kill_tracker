@@ -106,7 +106,9 @@ class Character:
         for kill in self.kills.values():
             if self._is_valid_kill(kill):
                 _value += kill['value']
-        return _value
+
+        _value = round(_value, 0)
+        return f'{_value:,}'
 
     @property
     def total_kill_count(self):
