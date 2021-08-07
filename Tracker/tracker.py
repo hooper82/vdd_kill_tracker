@@ -5,7 +5,7 @@ from Character import Character
 
 
 class Tracker:
-    def __init__(self, redis_adaptor, ccp_adaptor, zkb_adaptor, corp_id, region_id, month_id):
+    def __init__(self, redis_adaptor, ccp_adaptor, zkb_adaptor, corp_id, region_id, month_id, exclude_pod_kills, exclude_corvettes):
         self.redis_adaptor = redis_adaptor
         self.ccp_adaptor = ccp_adaptor
         self.zkb_adaptor = zkb_adaptor
@@ -13,6 +13,9 @@ class Tracker:
         self.corp_id = corp_id
         self.region_id = region_id
         self.month_id = month_id
+
+        self.exclude_pod_kills = exclude_pod_kills
+        self.exclude_corvettes = exclude_corvettes
 
         self.characters = {}
             # character_id : Character
@@ -29,6 +32,7 @@ class Tracker:
 
         self.get_all_corp_killmails()
         self.get_all_ccp_killblobs()
+        self.populate_all_characters()
         self.add_characters_to_redis()
 
         _seconds_taken = (datetime.datetime.now() - _start_datetime).total_seconds()
@@ -91,7 +95,21 @@ class Tracker:
 
     def populate_all_characters(self):
         all_character_ids = self.get_all_character_ids_from_killmails()
+
+        for character_id, character_name in self.get_new_character_names(all_character_ids).items():
+            new_character = Character(character_id, character_name, self.region_id, self.exclude_pod_kills, self.exclude_corvettes)
+            self.characters[character_id] = new_character
         
+        for kill in self.kills.values():
+            kill_id = kill['killmail_id']
+            zkb_blob = kill['zkb_blob']
+            ccp_blob = kill['ccp_blob']
+
+            if ccp_blob is None:
+                continue
+
+            for character in self.characters.values():
+                character.add_kill(kill_id, ccp_blob, zkb_blob, self.ccp_adaptor)
 
     def get_all_character_ids_from_killmails(self):
         character_ids = set()
@@ -110,3 +128,14 @@ class Tracker:
                 character_ids.add(attacker_blob['character_id'])
 
         return character_ids
+
+    def get_new_character_names(self, all_character_ids):
+        new_character_ids = [c for c in all_character_ids if not self.character_exists(c)]
+
+        character_ids_and_names = {}
+        for character_id, character_blob in self.ccp_adaptor.get_characters(new_character_ids).items():
+            character_ids_and_names[character_id] = character_blob['name']
+        return character_ids_and_names
+
+    def character_exists(self, character_id):
+        return character_id in self.characters.keys()

@@ -45,7 +45,25 @@ class Character:
 
         raise Exception("Could not find character in attacker blob!")
 
+    def is_new_kill_id(self, kill_id):
+        return kill_id not in self.kills.keys()
+
+    def is_in_kill_blob(self, ccp_blob):
+        for attacker_blob in ccp_blob["attackers"]:
+            if 'character_id' not in attacker_blob.keys():
+                continue    # Probably an NPC v0v
+            
+            if self.id == attacker_blob['character_id']:
+                True
+        return False
+
     def add_kill(self, kill_id, ccp_blob, zkb_blob, ccp_adaptor):
+        if not self.is_new_kill_id(kill_id):
+            return
+
+        if not self.is_in_kill_blob(ccp_blob):
+            return
+
         kill_timestamp = ccp_blob['killmail_time']
         kill_solarsystem_id = ccp_blob['solar_system_id']
         kill_region_id = ccp_adaptor.get_region(kill_solarsystem_id)

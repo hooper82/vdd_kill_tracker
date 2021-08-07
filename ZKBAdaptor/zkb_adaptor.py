@@ -24,7 +24,7 @@ def query_corporation_kills(corporation_id, month_id, page):
 
 class ZKBAdaptor:
     @classmethod
-    def get_all_corp_kill_ids(cls, corporation_id, month_id, concurrent_page_count=5):
+    def get_all_corp_kill_ids(cls, corporation_id, month_id, concurrent_page_count=3):
         results = []
 
         queried_fails = 0

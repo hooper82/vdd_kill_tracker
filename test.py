@@ -11,7 +11,7 @@ logging.basicConfig(
 ccp_adaptor = CCPAdaptor()
 zkb_adaptor = ZKBAdaptor()
 
-tracker = Tracker(None, ccp_adaptor, zkb_adaptor, 1282059165, 10000060, 8)
+tracker = Tracker(None, ccp_adaptor, zkb_adaptor, 1282059165, 10000060, 8, True, True)
 
 while True:
     tracker.run()
