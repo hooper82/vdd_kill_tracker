@@ -1,12 +1,17 @@
 import os
 import argparse
+import logging
 
-from KillmailFetcher import KillmailFetcher
-from CharacterTracker import CharacterTracker
+from CCPAdaptor import CCPAdaptor
+from ZKBAdaptor import ZKBAdaptor
 from RedisService import RedisService
+from Tracker import Tracker
 
-VDD_CORP_ID = 1282059165
-REGION_ID = 10000060
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -16,15 +21,15 @@ if __name__ == '__main__':
 
     parser.add_argument('--corp_id', type=int, default=os.environ['CORPORATION_ID'])
     parser.add_argument('--region_id', type=int, default=os.environ['REGION_ID'])
-    parser.add_argument('--month', type=int, default=os.environ['MONTH'])
+    parser.add_argument('--month_id', type=int, default=os.environ['MONTH'])
 
     args = parser.parse_args()
 
     redis_service = RedisService(args.redis_host, args.redis_port)
-    killmail_fetcher = KillmailFetcher(args.corp_id, args.region_id, args.month)
+    ccp_adaptor = CCPAdaptor()
+    zkb_adaptor = ZKBAdaptor()
 
-    character_tracker = CharacterTracker(killmail_fetcher, redis_service, args.corp_id, True, True)
+    tracker = Tracker(redis_service, ccp_adaptor, zkb_adaptor, args.corp_id, args.region_id, args.month_id)
 
     while True:
-        character_tracker.run(120)
-
+        tracker.run(120)

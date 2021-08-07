@@ -5,12 +5,6 @@ from collections import namedtuple
 import datetime
 from pprint import pprint
 
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
-
-
 URL_ZKILLBOARD_CORP_KILLS = "https://zkillboard.com/api/corporationID/{}/regionID/{}/month/{}/page/{}/"
 URL_CCP_KILLMAIL = "https://esi.evetech.net/latest/killmails/{}/{}/?datasource=tranquility"
 API_WAIT_SECONDS = 5
