@@ -44,8 +44,8 @@ class Tracker:
             killers.append(character.get_row)
 
         logging.info(f'Writing {len(killers)} characters to redis.')
-        self.redis_service.update_killers(killers)
-        self.redis_service.update_update_datetime()
+        self.redis_adaptor.update_killers(killers)
+        self.redis_adaptor.update_update_datetime()
 
     def get_all_corp_killmails(self):
         all_corp_killmails = self.zkb_adaptor.get_all_corp_kill_ids(self.corp_id, self.month_id)
