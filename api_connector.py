@@ -32,4 +32,4 @@ if __name__ == '__main__':
     tracker = Tracker(redis_service, ccp_adaptor, zkb_adaptor, args.corp_id, args.region_id, args.month_id, True, True)
 
     while True:
-        tracker.run(120)
+        tracker.run(300)

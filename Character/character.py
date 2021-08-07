@@ -107,7 +107,7 @@ class Character:
             if self._is_valid_kill(kill):
                 _value += kill['value']
 
-        _value = round(_value, 0)
+        _value = int(_value)
         return f'{_value:,}'
 
     @property
