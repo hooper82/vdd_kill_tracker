@@ -54,7 +54,7 @@ class Character:
                 continue    # Probably an NPC v0v
             
             if self.id == attacker_blob['character_id']:
-                True
+                return True
         return False
 
     def add_kill(self, kill_id, ccp_blob, zkb_blob, ccp_adaptor):
